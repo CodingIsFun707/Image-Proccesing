@@ -72,7 +72,6 @@ def Blur():
 
 Draw()
 
-
 wn = turtle.Screen()
 wn.onclick(Fxn)
 turtle.onkey(Blur,"k")
