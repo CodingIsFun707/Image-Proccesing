@@ -3,7 +3,7 @@ import turtle
 import math
 
 ScreenSize = 900
-Cellsize = 30
+Cellsize = 23
 
 colormode(255)
 pencolor("black")
@@ -36,7 +36,7 @@ def Draw():
     for i in range(0,NumRowsColumns):
         for j in range(0,(NumRowsColumns + 1)):
             if ((NumRowsColumns * i) + j) < TotalCells:
-                Square(((0 - (ScreenSize / 2)) + (NumRowsColumns * j)),((0 - (ScreenSize / 2)) + (NumRowsColumns * i)),((0 - (ScreenSize / 2)) + (NumRowsColumns * j) + Cellsize),((0 - (ScreenSize / 2)) + (NumRowsColumns * i) + Cellsize),Grid[(NumRowsColumns * i) + j])
+                Square(((0 - (ScreenSize / 2)) + (Cellsize * j)),((0 - (ScreenSize / 2)) + (Cellsize * i)),((0 - (ScreenSize / 2)) + (Cellsize * j) + Cellsize),((0 - (ScreenSize / 2)) + (Cellsize * i) + Cellsize),Grid[(Cellsize * i) + j])
     update()
 
 def Fxn(x,y,):
@@ -44,7 +44,10 @@ def Fxn(x,y,):
     NewY = y + (ScreenSize / 2)
     index = ((NewX - (NewX % Cellsize)) / Cellsize) + (NewY - (NewY % Cellsize))
     Grid[int(index)] = 0
-    Square((x - (x % Cellsize)),(y - (y % Cellsize)),(x - (x % Cellsize) + Cellsize),(y - (y % Cellsize) + Cellsize), Grid[int(index)])
+    BottomCX = x - (x % Cellsize)
+    BottomCY = y - (y % Cellsize)
+    Square(BottomCX,BottomCY,(BottomCX + Cellsize),(BottomCY + Cellsize), Grid[int(index)])
+    #Square((x - (x % Cellsize)),(y - (y % Cellsize)),(x - (x % Cellsize) + Cellsize),(y - (y % Cellsize) + Cellsize), Grid[int(index)])
     
 def Blur():
     BlurGrid = []
@@ -80,6 +83,6 @@ Draw()
 
 wn = turtle.Screen()
 wn.onclick(Fxn)
-turtle.onkey(Blur,"k")
-turtle.listen()
+#turtle.onkey(Blur,"k")
+#turtle.listen()
 wn.mainloop()
