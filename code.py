@@ -2,15 +2,21 @@ from turtle import *
 import turtle
 import math
 
+ScreenSize = 900
+Cellsize = 30
+
 colormode(255)
 pencolor("black")
 hideturtle()
-screensize(900,900)
+screensize(ScreenSize,ScreenSize)
 tracer(False)
 
 Grid = []
 
-for i in range(1,901):
+NumRowsColumns = int(ScreenSize / Cellsize)
+TotalCells = int(NumRowsColumns * NumRowsColumns)
+
+for i in range(0,TotalCells):
     Grid.append(255)
 
 def Square(x1,y1,x2,y2,fill):
@@ -27,23 +33,23 @@ def Square(x1,y1,x2,y2,fill):
     
 
 def Draw():
-    for i in range(0,30):
-        for j in range(0,31):
-            if ((30 * i) + j) < 900:
-                Square((-450 + (30 * j)),(-450 + (30 * i)),(-420 + (30 * j)),(-420 + (30 * i)),Grid[(30 * i) + j])
+    for i in range(0,NumRowsColumns):
+        for j in range(0,(NumRowsColumns + 1)):
+            if ((NumRowsColumns * i) + j) < TotalCells:
+                Square(((0 - (ScreenSize / 2)) + (NumRowsColumns * j)),((0 - (ScreenSize / 2)) + (NumRowsColumns * i)),((0 - (ScreenSize / 2)) + (NumRowsColumns * j) + Cellsize),((0 - (ScreenSize / 2)) + (NumRowsColumns * i) + Cellsize),Grid[(NumRowsColumns * i) + j])
     update()
 
 def Fxn(x,y,):
-    NewX = x + 450
-    NewY = y + 450
-    index = ((NewX - (NewX % 30)) / 30) + (NewY - (NewY % 30))
+    NewX = x + (ScreenSize / 2)
+    NewY = y + (ScreenSize / 2)
+    index = ((NewX - (NewX % Cellsize)) / Cellsize) + (NewY - (NewY % Cellsize))
     Grid[int(index)] = 0
-    Square((x - (x % 30)),(y - (y % 30)),(x - (x % 30) + 30),(y - (y % 30) + 30), Grid[int(index)])
+    Square((x - (x % Cellsize)),(y - (y % Cellsize)),(x - (x % Cellsize) + Cellsize),(y - (y % Cellsize) + Cellsize), Grid[int(index)])
     
 def Blur():
     BlurGrid = []
-    for i in range(0,900):
-        AllDirs = [(i-31),(i-30),(i-29),(i-1),i,(i+1),(i+29),(i+30),(i+31)]
+    for i in range(0,TotalCells):
+        AllDirs = [(i - (NumRowsColumns + 1)),(i - (NumRowsColumns)),(i - (NumRowsColumns - 1)),(i - 1),i,(i + 1),(i + (NumRowsColumns - 1)),(i + (NumRowsColumns)),(i + (NumRowsColumns + 1))]
         AllDirsValue = []
         RunningSum = 0
         NumElements = 0
@@ -62,11 +68,11 @@ def Blur():
             NumElements += 1
     
         BlurGrid.append(RunningSum//NumElements)
-        SqrsX = (i - 1) % 30
-        SqrsY = math.floor(i / 30)
-        NewX = (SqrsX * 30) - 450
-        NewY = (SqrsY * 30) - 450
-        Square(NewX,NewY,(NewX + 30),(NewY +30),BlurGrid[(i-1)])
+        SqrsX = (i - 1) % NumRowsColumns
+        SqrsY = math.floor(i / NumRowsColumns)
+        NewX = (SqrsX * Cellsize) - (ScreenSize / 2)
+        NewY = (SqrsY * Cellsize) - (ScreenSize / 2)
+        Square(NewX,NewY,(NewX + Cellsize),(NewY + Cellsize),BlurGrid[(i-1)])
 
     Grid = BlurGrid
 
