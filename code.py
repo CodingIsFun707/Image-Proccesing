@@ -3,7 +3,7 @@ import turtle
 import math
 
 ScreenSize = 900
-Cellsize = 23
+Cellsize = 24
 
 colormode(255)
 pencolor("black")
@@ -47,8 +47,7 @@ def Fxn(x,y,):
     BottomCX = x - (x % Cellsize)
     BottomCY = y - (y % Cellsize)
     Square(BottomCX,BottomCY,(BottomCX + Cellsize),(BottomCY + Cellsize), Grid[int(index)])
-    #Square((x - (x % Cellsize)),(y - (y % Cellsize)),(x - (x % Cellsize) + Cellsize),(y - (y % Cellsize) + Cellsize), Grid[int(index)])
-    
+
 def Blur():
     BlurGrid = []
     for i in range(0,TotalCells):
@@ -83,6 +82,6 @@ Draw()
 
 wn = turtle.Screen()
 wn.onclick(Fxn)
-#turtle.onkey(Blur,"k")
-#turtle.listen()
+turtle.onkey(Draw,"k")
+turtle.listen()
 wn.mainloop()
